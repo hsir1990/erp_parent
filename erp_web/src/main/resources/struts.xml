@@ -4,6 +4,6 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
     <package name="default" namespace="/" extends="struts-default">    	
-    	<action name="dep_*" class="refId" method="{1}"></action>   	
+    	<action name="dep_*" class="depAction" method="{1}"></action>   	
     </package>
 </struts>

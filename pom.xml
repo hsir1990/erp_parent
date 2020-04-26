@@ -10,7 +10,6 @@
   	<module>erp_dao</module>
   	<module>erp_biz</module>
   	<module>erp_web</module>
-  	<module>erp_bizaa</module>
   </modules>
   
   <!-- 定义版本常量 -->
