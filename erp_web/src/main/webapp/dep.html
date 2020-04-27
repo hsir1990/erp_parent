@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>部门管理</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+
+
+<script type="text/javascript">
+var method = "";
+$(function(){
+	//$.messager.alert("提示",[{"name":"管理员组","tele":"000000","uuid":1},{"name":"总裁办","tele":"111111","uuid":2},{"name":"采购部","tele":"222222","uuid":3},{"name":"销售部","tele":"333333","uuid":4},{"name":"公关部","tele":"444444","uuid":5},{"name":"行政部","tele":"555555","uuid":6},{"name":"人事部","tele":"555555","uuid":7},{"name":"运输部","tele":"444444","uuid":8},{"name":"党办","tele":"555555","uuid":9},{"name":"工会","tele":"555555","uuid":10},{"name":"仓储部","tele":"555555","uuid":11},{"name":"客服部","tele":"555555","uuid":12},{"name":"财务部","tele":"555555","uuid":13},{"name":"运营部","tele":"555555","uuid":14}]);
+	$('#grid').datagrid({    
+	    url:'dep_getList',    
+	    columns:[[    
+	        {field:'uuid',title:'部门编号',width:100},    
+	        {field:'name',title:'部门名称',width:100},    
+	        {field:'tele',title:'部门联系电话',width:100,align:'right'},
+	        {field:'-',title:'操作',formatter: function(value,row,index){
+	        	var oper = "<a href=\"javascript:void(0)\" onclick=\"edit(" + row.uuid + ')">修改</a>';
+	        	oper += ' <a href="javascript:void(0)" onclick="del(' + row.uuid + ')">删除</a>';
+	        	return oper;
+			}}
+	    ]],
+	    singleSelect: true,
+	    pagination: true,
+	    toolbar: [{
+	    	text: '新增',
+			iconCls: 'icon-add',
+			handler: function(){
+				method = "add";
+				$('#editDlg').dialog('open');
+			}
+		}]
+	});
+	
+	$('#btnSearch').bind('click',function(){
+		//把表单数据转换成json对象
+		var formData = $('#searchForm').serializeJSON();
+		$('#grid').datagrid('load',formData);
+		//alert(JSON.stringify($('#grid').datagrid('getData')));
+		//把json对象转换成字符串
+		/* alert(JSON.stringify(formData));
+		$.ajax({
+			url: 'dep_list',
+			data: formData,
+			dataType: 'json',
+			type: 'post',
+			success:function(rtn){
+				//grid加载数据
+				//datagrid(参数1，参数2)
+				//参数1 =》 datagrid里的方法名称
+				//参数2 =》 datagrid里的方法所需要的参数
+				$('#grid').datagrid('loadData',rtn);
+				//
+				total = rtn.length;
+				{total: total, rows:rtn};
+			}
+		}); */
+	});
+	
+	$('#editDlg').dialog({    
+	    title: '部门编辑',    
+	    width: 300,
+	    height: 200,
+	    closed: true,//窗口是是否为关闭状态, true：表示关闭    
+	    modal: true//模式窗口
+	});   
+	
+	$('#btnSave').bind('click',function(){
+		var formData = $('#editForm').serializeJSON();
+		$.ajax({
+			url: 'dep_' + method,
+			data: formData,
+			dataType: 'json',
+			type: 'post',
+			success:function(rtn){
+				$.messager.alert("提示",rtn.message,'info',function(){
+					//成功的话，我们要关闭窗口
+					$('#editDlg').dialog('close');
+					//刷新表格数据
+					$('#grid').datagrid('reload');
+				});
+			}
+		});
+	});
+
+});
+
+
+/**
+ * 删除部门
+ */
+function del(uuid){
+	$.messager.confirm("确认","确认要删除吗？",function(yes){
+		if(yes){
+			$.ajax({
+				url: 'dep_delete?id=' + uuid,
+				dataType: 'json',
+				type: 'post',
+				success:function(rtn){
+					$.messager.alert("提示",rtn.message,'info',function(){
+						//刷新表格数据
+						$('#grid').datagrid('reload');
+					});
+				}
+			});
+		}
+	});
+}
+
+/**
+ * 修改部门
+ */
+function edit(uuid){
+	//弹出窗口
+	$('#editDlg').dialog('open');
+	
+	//清空表单内容
+	$('#editForm').form('clear');
+	method = "update";
+	//加载数据
+	$('#editForm').form('load','dep_get?id=' + uuid);
+}
+</script>
+</head>
+<body>
+<div class="easyui-panel" style="padding-left:4px;border-bottom:0px;">
+<div style="height:2px;"></div>
+<form id="searchForm">
+	<table>
+		<tr>
+			<td>部门名称</td>
+			<td><input name="dep1.name"></td>
+		</tr>
+		<tr>
+			<td>部门电话</td>
+			<td><input name="dep1.tele"></td>
+		</tr>
+	</table>
+	<button id="btnSearch" type="button">查询</button>
+</form>
+<div style="height:2px;"></div>
+</div>
+	
+<table id="grid"></table>
+
+<div id="editDlg">
+	<form id="editForm">
+		<table>
+			<tr>
+				<td>部门名称</td>
+				<td><input name="dep.name"><input type="hidden" name="dep.uuid" /></td>
+			</tr>
+			<tr>
+				<td>部门电话</td>
+				<td><input name="dep.tele"></td>
+			</tr>
+		</table>
+		<button id="btnSave" type="button">保存</button>
+	</form>
+</div>
+</body>
+</html>
