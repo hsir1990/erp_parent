@@ -21,17 +21,24 @@
 	<!-- 通知 -->
 	<tx:advice id="advice" transaction-manager="transactionManager">
 	    <tx:attributes>	     
-	      <tx:method name="do*" propagation="REQUIRED"/>
-	      <tx:method name="add*" propagation="REQUIRED"/>
-	      <tx:method name="update*" propagation="REQUIRED"/>
-	      <tx:method name="save*" propagation="REQUIRED"/>
-	      <tx:method name="delete*" propagation="REQUIRED"/>
+	      <!--<tx:method name="do*" propagation="REQUIRED"  read-only="false"/>
+	      <tx:method name="add*" propagation="REQUIRED"  read-only="false"/>
+	      <tx:method name="update*" propagation="REQUIRED"  read-only="false"/>
+	      <tx:method name="save*" propagation="REQUIRED"  read-only="false"/>
+	      <tx:method name="delete*" propagation="REQUIRED"  read-only="false"/>
+	      <tx:method name="*" read-only="true"/>-->
+	      
+	      <tx:method name="do*" propagation="REQUIRED" />
+	      <tx:method name="add*" propagation="REQUIRED" />
+	      <tx:method name="update*" propagation="REQUIRED" />
+	      <tx:method name="save*" propagation="REQUIRED" />
+	      <tx:method name="delete*" propagation="REQUIRED" />
 	      <tx:method name="*" read-only="true"/>
 	    </tx:attributes>
 	</tx:advice>
 	
 	<aop:config>
-		<aop:pointcut id="serviceMethod" expression="execution(* cn.itcast.erp.biz.impl.*.*(..))"/>
+		<aop:pointcut id="serviceMethod" expression="execution(* cn.itcast.erp.biz.imp.*.*(..))"/>
 		<aop:advisor pointcut-ref="serviceMethod" advice-ref="advice" />
 	</aop:config>
 	

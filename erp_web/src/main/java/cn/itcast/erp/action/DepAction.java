@@ -73,7 +73,7 @@ public class DepAction {
 		mapData.put("total", total);
 		mapData.put("rows", list);
 		//把部门列表转JSON字符串
-		String listString = JSON.toJSONString(list);
+		String listString = JSON.toJSONString(mapData);
 		try {
 			//响应对象
 			HttpServletResponse response = ServletActionContext.getResponse();
