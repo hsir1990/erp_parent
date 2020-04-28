@@ -20,7 +20,7 @@ import cn.itcast.erp.entity.Dep;
 public class DepAction2 extends BaseAction<Dep>{
 	private IDepBiz2 depBiz2;
 	
-	public void setDepBiz(IDepBiz2 depBiz2) {
+	public void setDepBiz2(IDepBiz2 depBiz2) {
 		this.depBiz2 = depBiz2;
 		super.setBaseBiz(depBiz2);
 	}

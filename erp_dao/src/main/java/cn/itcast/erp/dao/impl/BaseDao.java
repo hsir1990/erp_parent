@@ -29,7 +29,7 @@ public class BaseDao<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	//查询所有的部门信息
 	@Override
 	public List<T> getList() {
-		return (List<T>) this.getHibernateTemplate().find("from T");
+		return (List<T>) this.getHibernateTemplate().find("from Dep");
 	}
 
 	//条件查询

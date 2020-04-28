@@ -6,7 +6,7 @@
     <package name="default" namespace="/" extends="struts-default">    	
     	<action name="dep_*" class="depAction" method="{1}"></action>   	
     </package>
-    <package name="default" namespace="/" extends="struts-default">    	
+    <!-- <package name="default" namespace="/" extends="struts-default">    	
     	<action name="dep2_*" class="depAction2" method="{1}"></action>   	
-    </package>
+    </package> -->
 </struts>
