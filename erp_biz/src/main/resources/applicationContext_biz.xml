@@ -17,5 +17,8 @@
 	<bean id="depBiz" class="cn.itcast.erp.biz.imp.DepBiz">
 		<property  name="depDao" ref="depDao"/>
 	</bean>
+	<bean id="depBiz2" class="cn.itcast.erp.biz.imp.DepBiz2">
+		<property  name="depDao2" ref="depDao2"/>
+	</bean>
 </beans>
 	
